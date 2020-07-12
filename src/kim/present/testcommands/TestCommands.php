@@ -107,5 +107,15 @@ class TestCommands extends PluginBase implements Listener{
                 return true;
             }
         }));
+        $this->getServer()->getCommandMap()->register(strtolower($this->getName()), new PluginCommand('f', $this, new class() implements CommandExecutor{
+            public function onCommand(CommandSender $sender, Command $command, $label, array $params) : bool{
+                if(!$sender instanceof Player){
+                    $sender->sendMessage(TextFormat::YELLOW . "인게임에서 실행하세요");
+                    return true;
+                }
+                $sender->setFatigue((int) ($params[0] ?? 0));
+                return true;
+            }
+        }));
     }
 }
