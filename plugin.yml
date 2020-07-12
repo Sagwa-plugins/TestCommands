@@ -1,0 +1,10 @@
+---
+name: TestCommands
+main: kim\present\testcommands\TestCommands
+version: 1.0.0
+api: [4.0.0]
+author: PresentKim
+description: '[사과서버] 테스트 명령어 플러그인'
+load: STARTUP
+depend: [SagwaCore]
+...
