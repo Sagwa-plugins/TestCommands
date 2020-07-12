@@ -28,6 +28,7 @@ use leinne\sagwa\player\Player;
 use pocketmine\block\Block;
 use pocketmine\block\BlockBreakInfo;
 use pocketmine\block\BlockIdentifier;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\BlockToolType;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
@@ -114,6 +115,18 @@ class TestCommands extends PluginBase implements Listener{
                     return true;
                 }
                 $sender->setFatigue((int) ($params[0] ?? 0));
+                return true;
+            }
+        }));
+        $this->getServer()->getCommandMap()->register(strtolower($this->getName()), new PluginCommand('if', $this, new class() implements CommandExecutor{
+            public function onCommand(CommandSender $sender, Command $command, $label, array $params) : bool{
+                if(!$sender instanceof Player){
+                    $sender->sendMessage(TextFormat::YELLOW . "인게임에서 실행하세요");
+                    return true;
+                }
+                for($y = 0, $height = mt_rand(3, 6); $y < $height; ++$y){
+                    $sender->getWorld()->setBlock($sender->getPosition()->floor()->add(0, $y, 0), new Block(new BlockIdentifier(BlockLegacyIds::LOG, 0), "t", new BlockBreakInfo(0.1, BlockToolType::NONE)));
+                }
                 return true;
             }
         }));
